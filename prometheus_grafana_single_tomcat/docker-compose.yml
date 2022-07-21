@@ -1,0 +1,49 @@
+version: '3'
+services:
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+    ports:
+      - 5432:5432
+
+  prometheus:
+    image: quay.io/prometheus/prometheus
+    container_name: prometheus
+    volumes:
+     - ./etc/prometheus/:/etc/prometheus/
+     - ./data/prometheus/:/prometheus/
+    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
+    ports:
+     - 9090:9090
+    depends_on:
+      - db
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+     - 3000:3000
+    volumes:
+      - ./data/grafana/:/var/lib/grafana
+      - ./etc/grafana/:/etc/grafana/provisioning/
+    depends_on:
+      - prometheus
+
+  app:
+    build:
+      context: ./app/hello-world
+      dockerfile: docker/Dockerfile
+    container_name: app
+    volumes:
+      - ./etc/tomcat/:/etc/tomcat/conf
+      - ./lib/tomcat/:/usr/local/lib
+    ports:
+      - 80:8080
+    depends_on:
+      - grafana
+    restart: on-failure
