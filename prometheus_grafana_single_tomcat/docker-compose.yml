@@ -49,3 +49,17 @@ services:
     depends_on:
       - grafana
     restart: on-failure
+
+  pyroscope:
+    container_name: pyroscope
+    image: "pyroscope/pyroscope:latest"
+    ports:
+      - "4040:4040"
+    command:
+      - server
+      - -log-level
+      - debug
+    volumes:
+      - ./etc/pyroscope/pyroscope-config.yml:/etc/pyroscope/server.yml
+    depends_on:
+      - app
