@@ -2,8 +2,8 @@
 FROM tomcat:9-jre8
 
 # Add Prometheus exporters -------------------
-ENV TOMCAT_SIMPLECLIENT_VERSION=0.12.0
-ENV TOMCAT_EXPORTER_VERSION=0.0.15
+ENV TOMCAT_SIMPLECLIENT_VERSION=0.16.0
+ENV TOMCAT_EXPORTER_VERSION=0.0.17
 
 RUN apt-get update && apt-get install -y curl && \
     curl --fail --location https://search.maven.org/remotecontent?filepath=io/prometheus/simpleclient/${TOMCAT_SIMPLECLIENT_VERSION}/simpleclient-${TOMCAT_SIMPLECLIENT_VERSION}.jar --output /usr/local/tomcat/lib/simpleclient-${TOMCAT_SIMPLECLIENT_VERSION}.jar && \
@@ -23,7 +23,6 @@ RUN curl --fail --location https://repo1.maven.org/maven2/org/postgresql/postgre
 ADD target/hello-world-war-1.0.0.war /usr/local/tomcat/webapps/
 
 # Configure Tomcat -------------------
-ADD docker/server.xml /usr/local/tomcat/conf/
 ADD docker/web.xml /usr/local/tomcat/conf/
 
 # Expose to network -------------------
