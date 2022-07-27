@@ -4,4 +4,46 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <servlet-name>M</servlet-name>
+    <servlet-class>io.prometheus.client.exporter.MetricsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>M</servlet-name>
+    <url-pattern>/metrics</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <filter-name>prometheusFilter</filter-name>
+    <!-- This example shows the javax version. For Jakarta you would use -->
+    <!-- <filter-class>io.prometheus.client.filter.servlet.jakarta.MetricsFilter</filter-class> -->
+    <filter-class>io.prometheus.client.filter.MetricsFilter</filter-class>
+    <init-param>
+      <param-name>metric-name</param-name>
+      <param-value>helloworld_metrics_filter</param-value>
+    </init-param>
+    <!-- help is optional, defaults to the message below -->
+    <init-param>
+      <param-name>help</param-name>
+      <param-value>This is the help for your metrics filter</param-value>
+    </init-param>
+    <!-- buckets is optional, unless specified the default buckets from io.prometheus.client.Histogram are used -->
+    <init-param>
+      <param-name>buckets</param-name>
+      <param-value>0.005,0.01,0.025,0.05,0.075,0.1,0.25,0.5,0.75,1,2.5,5,7.5,10</param-value>
+    </init-param>
+    <!-- path-components is optional, anything less than 1 (1 is the default) means full granularity -->
+    <init-param>
+      <param-name>path-components</param-name>
+      <param-value>1</param-value>
+    </init-param>
+    <!-- strip-context-path is optional, defaults to false -->
+    <init-param>
+      <param-name>strip-context-path</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>prometheusFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>
