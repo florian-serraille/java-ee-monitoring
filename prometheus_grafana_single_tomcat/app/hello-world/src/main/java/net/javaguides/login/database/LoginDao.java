@@ -68,6 +68,7 @@ public class LoginDao {
 		p.setRemoveAbandoned(true);
 		p.setJdbcInterceptors(
 				"org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;" +
+				"net.javaguides.login.database.TomcatJdbcMetricsInterceptor;" +
 				"org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
 		return p;
 	}

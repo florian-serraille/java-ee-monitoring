@@ -5,11 +5,11 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-    <servlet-name>M</servlet-name>
+    <servlet-name>Metrics</servlet-name>
     <servlet-class>io.prometheus.client.exporter.MetricsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>M</servlet-name>
+    <servlet-name>Metrics</servlet-name>
     <url-pattern>/metrics</url-pattern>
   </servlet-mapping>
   <filter>
@@ -34,12 +34,12 @@
     <!-- path-components is optional, anything less than 1 (1 is the default) means full granularity -->
     <init-param>
       <param-name>path-components</param-name>
-      <param-value>1</param-value>
+      <param-value>10</param-value>
     </init-param>
     <!-- strip-context-path is optional, defaults to false -->
     <init-param>
       <param-name>strip-context-path</param-name>
-      <param-value>true</param-value>
+      <param-value>false</param-value>
     </init-param>
   </filter>
   <filter-mapping>
