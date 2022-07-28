@@ -18,4 +18,4 @@ rule_files:
 scrape_configs:
 - job_name: 'webrun'
   static_configs:
-  - targets: ['app:8080']
+  - targets: ['app:8080', 'otel:8888', 'otel:8889']

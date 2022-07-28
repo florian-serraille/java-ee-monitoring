@@ -17,6 +17,10 @@ RUN apt-get update && apt-get install -y curl && \
 # Add Postgresql driver -------------------
 ENV POSTGRESQL_DRIVER_VERSION=42.4.0
 
+# Add Opentelemetry
+RUN curl --fail --location https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.16.0/opentelemetry-javaagent.jar --output /usr/local/tomcat/lib/opentelemetry-javaagent.jar
+
+
 RUN curl --fail --location https://repo1.maven.org/maven2/org/postgresql/postgresql/${POSTGRESQL_DRIVER_VERSION}/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar --output /usr/local/tomcat/lib/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar
 
 # Add war to Tomcat webapps -------------------
@@ -24,6 +28,8 @@ ADD target/hello-world-war-1.0.0.war /usr/local/tomcat/webapps/
 
 # Configure Tomcat -------------------
 ADD docker/web.xml /usr/local/tomcat/conf/
+ADD docker/setenv.sh /usr/local/tomcat/bin/
+RUN chmod 711 /usr/local/tomcat/bin/setenv.sh
 
 # Expose to network -------------------
 EXPOSE 8080
