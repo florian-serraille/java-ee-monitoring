@@ -19,10 +19,17 @@ ENV POSTGRESQL_DRIVER_VERSION=42.4.0
 
 RUN curl --fail --location https://repo1.maven.org/maven2/org/postgresql/postgresql/${POSTGRESQL_DRIVER_VERSION}/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar --output /usr/local/tomcat/lib/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar
 
+# Add Opentelemetry
+ENV LIGHTSTEP_AGENT_VERSION=1.15.0
+
+RUN curl --fail --location https://github.com/lightstep/otel-launcher-java/releases/download/${LIGHTSTEP_AGENT_VERSION}/lightstep-opentelemetry-javaagent.jar --output /usr/local/tomcat/lib/lightstep-opentelemetry-javaagent.jar
+
+
 # Add war to Tomcat webapps -------------------
 ADD target/hello-world-war-1.0.0.war /usr/local/tomcat/webapps/
 RUN mv /usr/local/tomcat/webapps/hello-world-war-1.0.0.war /usr/local/tomcat/webapps/hello-world.war
-
+ADD docker/setenv.sh /usr/local/tomcat/bin/
+RUN chmod 711 /usr/local/tomcat/bin/setenv.sh
 # Configure Tomcat -------------------
 ADD docker/web.xml /usr/local/tomcat/conf/
 
