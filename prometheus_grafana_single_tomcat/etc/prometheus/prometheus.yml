@@ -10,19 +10,19 @@ global:
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
-  # - "first.rules"
-  # - "second.rules"
+# - "first.rules"
+# - "second.rules"
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
-- job_name: 'tomcat'
-  static_configs:
-  - targets: ['app:8080']
-- job_name: 'webrun'
-  metrics_path: /hello-world/metrics
-  static_configs:
-    - targets: ['app:8080']
-- job_name: 'otel'
-  static_configs:
-    - targets: ['otel:8888', 'otel:8889']
+  - job_name: 'tomcat'
+    static_configs:
+      - targets: ['app:8080']
+  - job_name: 'webrun'
+    metrics_path: /hello-world/metrics
+    static_configs:
+      - targets: ['app:8080']
+  - job_name: 'otel'
+    static_configs:
+      - targets: [ 'otel:8888', 'otel:8889' ]

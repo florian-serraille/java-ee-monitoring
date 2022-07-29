@@ -25,6 +25,7 @@ RUN curl --fail --location https://repo1.maven.org/maven2/org/postgresql/postgre
 
 # Add war to Tomcat webapps -------------------
 ADD target/hello-world-war-1.0.0.war /usr/local/tomcat/webapps/
+RUN mv /usr/local/tomcat/webapps/hello-world-war-1.0.0.war /usr/local/tomcat/webapps/hello-world.war
 
 # Configure Tomcat -------------------
 ADD docker/web.xml /usr/local/tomcat/conf/
